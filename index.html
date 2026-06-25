@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windy Ng</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pink: #F4C0D1;
+      --pink-light: #FBEAF0;
+      --pink-mid: #ED93B1;
+      --pink-dark: #993556;
+      --green: #C0DD97;
+      --green-light: #EAF3DE;
+      --green-mid: #97C459;
+      --green-dark: #3B6D11;
+      --blue-light: #EEF0F8;
+      --blue-dark: #3D4A7A;
+      --yellow-light: #FEF8E7;
+      --yellow-dark: #7A5C00;
+      --cream: #fdf8f2;
+      --white: #ffffff;
+      --text: #2C2C2A;
+      --muted: #888780;
+      --border: rgba(0,0,0,0.08);
+      --border-strong: rgba(0,0,0,0.14);
+      --shadow: 0 2px 12px rgba(0,0,0,0.06);
+      --shadow-hover: 0 6px 24px rgba(0,0,0,0.10);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(253,248,242,0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 0.5px solid var(--border-strong);
+      padding: 0.9rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+    }
+
+    .nav-name {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 4.5rem 1.5rem 3rem;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--pink-dark);
+      background: var(--pink-light);
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 1.1rem;
+    }
+
+    .hero h1 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      color: var(--text);
+      line-height: 1.12;
+      margin-bottom: 1.1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 .accent { color: var(--pink-dark); }
+
+    .hero-bio {
+      max-width: 540px;
+      font-size: 1.05rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 9px 18px;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.15s;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primary {
+      background: var(--pink-mid);
+      color: white;
+    }
+
+    .btn-primary:hover { background: var(--pink-dark); }
+
+    .btn-ghost {
+      border: 0.5px solid var(--border-strong);
+      color: var(--muted);
+      background: transparent;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--pink-mid);
+      color: var(--pink-dark);
+      background: var(--pink-light);
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 1.5rem 5rem;
+    }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 3.5rem; }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+
+    .section-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text);
+    }
+
+    /* ── FILTER PILLS ── */
+    .filter-row {
+      display: flex;
+      gap: 0.45rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-pill {
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 0.5px solid var(--border-strong);
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.12s;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .filter-pill:hover {
+      border-color: var(--pink-mid);
+      color: var(--pink-dark);
+      background: var(--pink-light);
+    }
+
+    .filter-pill.active {
+      background: var(--pink-mid);
+      border-color: var(--pink-mid);
+      color: white;
+    }
+
+    /* ── PROJECT GRID ── */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    /* ── PROJECT CARD ── */
+    .card {
+      background: var(--white);
+      border: 0.5px solid var(--border-strong);
+      border-radius: 16px;
+      padding: 1.25rem 1.4rem 1.1rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.15s, transform 0.15s, border-color 0.15s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-2px);
+      border-color: var(--pink);
+    }
+
+    .card.hidden { display: none; }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 0.9rem;
+    }
+
+    .card-emoji { font-size: 1.75rem; line-height: 1; }
+
+    .cat-tag {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.68rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
+    .cat-personal  { background: var(--pink-light);  color: var(--pink-dark); }
+    .cat-work      { background: var(--green-light); color: var(--green-dark); }
+    .cat-research  { background: var(--blue-light);  color: var(--blue-dark); }
+    .cat-creative  { background: var(--yellow-light);color: var(--yellow-dark); }
+
+    .card-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 0.975rem;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .card-desc {
+      font-size: 0.84rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.55;
+      margin-bottom: 1rem;
+      flex: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+
+    .tech-tags {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+    }
+
+    .tech-tag {
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 0.68rem;
+      font-weight: 500;
+      background: var(--cream);
+      color: var(--muted);
+      border: 0.5px solid var(--border);
+    }
+
+    .link-arrow {
+      font-size: 0.9rem;
+      color: var(--muted);
+      transition: color 0.12s;
+    }
+
+    .card:hover .link-arrow { color: var(--pink-dark); }
+
+    /* ── RESEARCH LIST ── */
+    .research-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .research-item {
+      background: var(--white);
+      border: 0.5px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.12s;
+    }
+
+    .research-item:hover {
+      border-color: var(--green-mid);
+      background: var(--green-light);
+    }
+
+    .research-emoji { font-size: 1.4rem; flex-shrink: 0; }
+
+    .research-content { flex: 1; min-width: 0; }
+
+    .research-title {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--text);
+      margin-bottom: 0.15rem;
+    }
+
+    .research-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .research-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+
+    /* ── ABOUT ── */
+    .about-card {
+      background: var(--white);
+      border: 0.5px solid var(--border-strong);
+      border-radius: 16px;
+      padding: 1.75rem;
+      box-shadow: var(--shadow);
+    }
+
+    .about-text {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.85;
+      max-width: 600px;
+    }
+
+    .about-text strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem;
+      border-top: 0.5px solid var(--border-strong);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer-text {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.25rem;
+    }
+
+    .footer-links a {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.12s;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 0.5px;
+      background: var(--border-strong);
+      margin: 0 0 3.5rem;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      nav { padding: 0.75rem 1rem; }
+      .nav-links { gap: 1rem; }
+      .hero { padding: 2.5rem 1rem 2rem; }
+      main { padding: 0 1rem 4rem; }
+      .project-grid { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; gap: 0.6rem; text-align: center; padding: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .project-grid { grid-template-columns: 1fr; }
+      .research-desc { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-name">windy ng</a>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-eyebrow">Data Scientist &amp; Developer</div>
+  <h1>hi, i'm <span class="accent">windy</span> 👋</h1>
+  <p class="hero-bio">
+    I build data tools and web apps — from biomarker platforms at Molecular You to personal
+    apps that help friends find time, split the bill, and track their bakes. Background in
+    nutritional sciences and health research; currently making data more human.
+  </p>
+  <div class="hero-links">
+    <a href="https://github.com/windyzn" class="btn btn-primary" target="_blank">↗ GitHub</a>
+    <a href="mailto:windy@molecularyou.com" class="btn btn-ghost">✉ Email</a>
+  </div>
+</section>
+
+<!-- ── MAIN ── -->
+<main>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="section-header">
+      <h2 class="section-title">Projects</h2>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-pill active" data-filter="all">All</button>
+      <button class="filter-pill" data-filter="personal">Personal Apps</button>
+      <button class="filter-pill" data-filter="work">Molecular You</button>
+      <button class="filter-pill" data-filter="creative">Creative</button>
+    </div>
+
+    <div class="project-grid" id="project-grid">
+
+      <a class="card" href="https://windyzn.github.io/crumble/" target="_blank" data-category="personal">
+        <div class="card-top">
+          <div class="card-emoji">🍞</div>
+          <span class="cat-tag cat-personal">Personal</span>
+        </div>
+        <div class="card-title">Crumble</div>
+        <div class="card-desc">Track the true cost of every bake. Manage your pantry, build recipes from ingredients, and see per-serving costs with markup scenarios.</div>
+        <div class="card-footer">
+          <div class="tech-tags">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">CSS</span>
+            <span class="tech-tag">JS</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://windyzn.github.io/billi-bot/" target="_blank" data-category="personal">
+        <div class="card-top">
+          <div class="card-emoji">🤖</div>
+          <span class="cat-tag cat-personal">Personal</span>
+        </div>
+        <div class="card-title">Billi Bot</div>
+        <div class="card-desc">Smart restaurant bill splitter for groups dining in BC. AI receipt scanning, GST/PST handling, and minimum-transaction debt settlement.</div>
+        <div class="card-footer">
+          <div class="tech-tags">
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">AI</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://windyzn.github.io/nook/" target="_blank" data-category="personal">
+        <div class="card-top">
+          <div class="card-emoji">🌿</div>
+          <span class="cat-tag cat-personal">Personal</span>
+        </div>
+        <div class="card-title">Nook</div>
+        <div class="card-desc">Find availabilities between friends with no sign-up required. Tap your free slots and share a link — that's it.</div>
+        <div class="card-footer">
+          <div class="tech-tags">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">CSS</span>
+            <span class="tech-tag">JS</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://windyzn.github.io/patchworks/" target="_blank" data-category="personal">
+        <div class="card-top">
+          <div class="card-emoji">🧵</div>
+          <span class="cat-tag cat-personal">Personal</span>
+        </div>
+        <div class="card-title">Patchworks</div>
+        <div class="card-desc">Monthly goal tracker with a bingo-style quilt board. Complete goals to stitch unique CSS fabric patterns into your grid.</div>
+        <div class="card-footer">
+          <div class="tech-tags">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">CSS</span>
+            <span class="tech-tag">JS</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://windyzn.github.io/zone-two/" target="_blank" data-category="personal">
+        <div class="card-top">
+          <div class="card-emoji">🏃‍♀️</div>
+          <span class="cat-tag cat-personal">Personal</span>
+        </div>
+        <div class="card-title">Zone Two</div>
+        <div class="card-desc">Personalized running plan builder. Answer a short questionnaire and get a custom training schedule around your goal and availability.</div>
+        <div class="card-footer">
+          <div class="tech-tags">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">CSS</span>
+            <span class="tech-tag">JS</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://windyzn.github.io/scoring-workbench/" target="_blank" data-category="work">
+        <div class="card-top">
+          <div class="card-emoji">⚖️</div>
+          <span class="cat-tag cat-work">Molecular You</span>
+        </div>
+        <div class="card-title">Scoring Workbench</div>
+        <div class="card-desc">Internal tool to tune biomarker scoring weights across a biomarker–process–systems framework and explore aggregate score distributions.</div>
+        <div class="card-footer">
+          <div class="tech-tags">
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Data</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://windyzn.github.io/bio-age-explorer/" target="_blank" data-category="work">
+        <div class="card-top">
+          <div class="card-emoji">🧬</div>
+          <span class="cat-tag cat-work">Molecular You</span>
+        </div>
+        <div class="card-title">Biological Age Explorer</div>
+        <div class="card-desc">Interactive visualization tool for exploring biological age estimates derived from multi-omic biomarker panels.</div>
+        <div class="card-footer">
+          <div class="tech-tags">
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Data Viz</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://windyzn.github.io/my-hormone-health/" target="_blank" data-category="work">
+        <div class="card-top">
+          <div class="card-emoji">🩺</div>
+          <span class="cat-tag cat-work">Molecular You</span>
+        </div>
+        <div class="card-title">Hormone Health</div>
+        <div class="card-desc">Client-facing hormone biomarker report. Upload test data as CSV and explore personalized insights organized by health category.</div>
+        <div class="card-footer">
+          <div class="tech-tags">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">Health</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://windyzn.github.io/marumonsters/" target="_blank" data-category="creative">
+        <div class="card-top">
+          <div class="card-emoji">🧶</div>
+          <span class="cat-tag cat-creative">Creative</span>
+        </div>
+        <div class="card-title">MaruMonsters</div>
+        <div class="card-desc">Blog for my crochet amigurumi designs — patterns, progress photos, and the little handmade monsters that come to life.</div>
+        <div class="card-footer">
+          <div class="tech-tags">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">Blog</span>
+          </div>
+          <span class="link-arrow">↗</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- RESEARCH -->
+  <section class="section" id="research">
+    <div class="section-header">
+      <h2 class="section-title">Research &amp; Data Science</h2>
+    </div>
+
+    <div class="research-list">
+
+      <a class="research-item" href="https://github.com/windyzn/urinaryVDBP" target="_blank">
+        <div class="research-emoji">🔬</div>
+        <div class="research-content">
+          <div class="research-title">Urinary Vitamin D Binding Protein</div>
+          <div class="research-desc">Exploring urinary VDBP interactions and kidney health markers in the PROMISE cohort</div>
+        </div>
+        <div class="research-meta">
+          <span class="cat-tag cat-research">R</span>
+          <span class="link-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="research-item" href="https://github.com/windyzn/PROMISE-tanitaBC418" target="_blank">
+        <div class="research-emoji">📊</div>
+        <div class="research-content">
+          <div class="research-title">Tanita BC-418 Validation</div>
+          <div class="research-desc">Validation of the Tanita BC-418 body composition device using PROMISE cohort data</div>
+        </div>
+        <div class="research-meta">
+          <span class="cat-tag cat-research">R</span>
+          <span class="link-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="research-item" href="https://github.com/windyzn/steam-videogame" target="_blank">
+        <div class="research-emoji">🎮</div>
+        <div class="research-content">
+          <div class="research-title">Steam Video Game Analysis</div>
+          <div class="research-desc">Brainstation data science capstone: predicting game success on Steam using review and metadata features</div>
+        </div>
+        <div class="research-meta">
+          <span class="cat-tag cat-research">Python</span>
+          <span class="link-arrow">↗</span>
+        </div>
+      </a>
+
+      <a class="research-item" href="https://github.com/windyzn/OmniStep" target="_blank">
+        <div class="research-emoji">💡</div>
+        <div class="research-content">
+          <div class="research-title">OmniStep</div>
+          <div class="research-desc">Biomedical engineering capstone project — step detection and gait analysis system</div>
+        </div>
+        <div class="research-meta">
+          <span class="cat-tag cat-research">Engineering</span>
+          <span class="link-arrow">↗</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="section-header">
+      <h2 class="section-title">About</h2>
+    </div>
+    <div class="about-card">
+      <p class="about-text">
+        I'm a <strong>data scientist and developer</strong> with a background in nutritional sciences
+        and health research. I'm currently at <strong>Molecular You</strong>, building tools that make
+        multi-omic health data more accessible and meaningful for clients and clinicians.
+        <br><br>
+        Outside of work I build personal apps — mostly things I actually use — and explore what's
+        possible with a simple HTML-CSS-JS stack and a good AI collaborator. I also crochet little
+        monsters, obsessively track my baking costs, and try to stay in zone 2 on my runs.
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span class="footer-text">windy ng · 2025</span>
+  <div class="footer-links">
+    <a href="https://github.com/windyzn" target="_blank">GitHub</a>
+    <a href="mailto:windy@molecularyou.com">Email</a>
+  </div>
+</footer>
+
+<script>
+  const pills = document.querySelectorAll('.filter-pill');
+  const cards = document.querySelectorAll('#project-grid .card');
+
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      pills.forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+
+      const filter = pill.dataset.filter;
+      cards.forEach(card => {
+        const show = filter === 'all' || card.dataset.category === filter;
+        card.classList.toggle('hidden', !show);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
